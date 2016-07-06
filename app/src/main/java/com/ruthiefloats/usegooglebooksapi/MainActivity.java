@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_get_data) {
             if (isOnline()) {
-                requestData("http://services.hanselandpetal.com/feeds/flowers.json");
-                //https://www.googleapis.com/books/v1/volumes?q=quilting
+                requestData("https://www.googleapis.com/books/v1/volumes?q=quilting");
+
             } else {
                 Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
             }
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         if (bookList != null) {
             for (Book book : bookList) {
                 output.append(book.getTitle() + "\n");
+                output.append(book.getAuthor() + "\n");
             }
         }
     }
