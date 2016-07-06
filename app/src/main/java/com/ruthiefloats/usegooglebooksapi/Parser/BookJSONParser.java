@@ -17,17 +17,29 @@ public class BookJSONParser {
         /*  This currently doesn't do anything */
         //to implement parseFeed method
 
+
         try {
             JSONObject obj = new JSONObject(content);
             JSONArray ar = obj.getJSONArray("items");
             List<Book> bookList = new ArrayList<>();
 
+
+
             for (int i = 0; i<ar.length(); i++){
                 JSONObject innerObj = ar.getJSONObject(i);
+
+//                JSONArray volumeInfo = innerObj.getJSONArray("volumeInfo"); //this doesn't work
+//                JSONObject volumeInfoObj = volumeInfo.getJSONObject(0);
+//                String testAuthor = volumeInfoObj.getString("title");
+
+                JSONObject volumeInfo = innerObj.getJSONObject("volumeInfo");
+                String authorsTester = volumeInfo.getString("authors");
+                String titleTester = volumeInfo.getString("title");
+
                 Book book = new Book();
                 //todo change these to sensible book variables
-                book.setAuthor(innerObj.getString("kind"));
-                book.setTitle(innerObj.getString("id"));
+                book.setAuthor(authorsTester);
+                book.setTitle(titleTester);
 
                 bookList.add(book);
             }
