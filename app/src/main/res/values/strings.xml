@@ -1,6 +1,8 @@
 <resources>
+
     <string name="app_name">Use Google Books API</string>
     <string name="get_data">Get Books</string>
     <string name="search">Search!</string>
+    <string name="search_results">Your results: \n</string>
 
 </resources>

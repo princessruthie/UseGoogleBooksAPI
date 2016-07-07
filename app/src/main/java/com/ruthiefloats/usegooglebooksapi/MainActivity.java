@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
                 EditText editText = (EditText) findViewById(R.id.edit_text);
                 String searchText = editText.getText().toString();
-//                searchText = "quilting";
-
                 requestData(BASE_URL + searchText);
             }
         });
@@ -100,8 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-//			updateDisplay("Starting task");
-
             if (tasks.size() == 0) {
                 pb.setVisibility(View.VISIBLE);
             }
@@ -128,11 +124,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(String... values) {
-//			updateDisplay(values[0]);
         }
     }
 
     protected void updateDisplay() {
+
+        output.setText(R.string.search_results);
 
         if (bookList != null) {
             for (Book book : bookList) {

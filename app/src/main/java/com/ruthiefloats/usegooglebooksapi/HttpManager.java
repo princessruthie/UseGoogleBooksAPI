@@ -6,10 +6,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by fieldsru on 7/5/16.
- */
+
 public class HttpManager {
+
+    /**
+     * @param uri Used to construt a new URL object.
+     * @return The returned input from the connection's stream.
+     */
 
     public static String getData(String uri) {
 

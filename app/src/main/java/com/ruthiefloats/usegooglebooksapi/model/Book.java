@@ -1,9 +1,12 @@
 package com.ruthiefloats.usegooglebooksapi.model;
 
-/**
- * Created by fieldsru on 7/5/16.
- */
 public class Book {
+
+    /**
+     * Currently a Book object has a String for title, a String for
+     * author, getters and setters.
+     */
+
     private String mTitle;
 
     public void setTitle(String title) {
@@ -23,5 +26,4 @@ public class Book {
     public String getAuthor() {
         return mAuthor;
     }
-
 }
