@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     TextView output;
     ProgressBar pb;
     List<MyTask> tasks;
-    private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
+    private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=insubject:";
 
     List<Book> bookList;
 
