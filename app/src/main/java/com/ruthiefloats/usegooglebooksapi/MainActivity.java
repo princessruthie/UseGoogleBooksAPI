@@ -10,6 +10,8 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     TextView output;
     ProgressBar pb;
     List<MyTask> tasks;
+    private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
 
     List<Book> bookList;
 
@@ -43,6 +46,20 @@ public class MainActivity extends AppCompatActivity {
         pb.setVisibility(View.INVISIBLE);
 
         tasks = new ArrayList<>();
+
+
+        Button searchButton = (Button) findViewById(R.id.search_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                EditText editText = (EditText) findViewById(R.id.edit_text);
+                String searchText = editText.getText().toString();
+//                searchText = "quilting";
+
+                requestData(BASE_URL + searchText);
+            }
+        });
     }
 
     @Override
@@ -55,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_get_data) {
             if (isOnline()) {
-                requestData("https://www.googleapis.com/books/v1/volumes?q=quilting");
+                requestData(BASE_URL + "quilting");
 
             } else {
                 Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();

@@ -27,19 +27,14 @@ public class BookJSONParser {
 
             for (int i = 0; i<ar.length(); i++){
                 JSONObject innerObj = ar.getJSONObject(i);
-
-//                JSONArray volumeInfo = innerObj.getJSONArray("volumeInfo"); //this doesn't work
-//                JSONObject volumeInfoObj = volumeInfo.getJSONObject(0);
-//                String testAuthor = volumeInfoObj.getString("title");
-
                 JSONObject volumeInfo = innerObj.getJSONObject("volumeInfo");
-                String authorsTester = volumeInfo.getString("authors");
-                String titleTester = volumeInfo.getString("title");
+
+                String authors = volumeInfo.optString("authors", "No Author Information");
+                String title = volumeInfo.optString("title", "No Title Information");
 
                 Book book = new Book();
-                //todo change these to sensible book variables
-                book.setAuthor(authorsTester);
-                book.setTitle(titleTester);
+                book.setAuthor(authors);
+                book.setTitle(title);
 
                 bookList.add(book);
             }
