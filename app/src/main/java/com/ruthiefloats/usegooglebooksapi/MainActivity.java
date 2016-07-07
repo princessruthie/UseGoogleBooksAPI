@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -146,11 +147,11 @@ public class MainActivity extends AppCompatActivity {
         output.setText(R.string.search_results);
 
         if (bookList != null) {
-            for (Book book : bookList) {
-                output.append(book.getTitle() + "\n");
-                output.append(book.getAuthor() + "\n");
+            BookAdapter adapter = new BookAdapter(this, (ArrayList<Book>) bookList);
+            ListView listView = (ListView) findViewById(R.id.list);
+            listView.setAdapter(adapter);
             }
-        }
+
     }
 
     protected void updateDisplay(String display) {
