@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
                 EditText editText = (EditText) findViewById(R.id.edit_text);
                 String searchText = editText.getText().toString();
-                requestData(BASE_URL + searchText);
+                String safeSearch = searchText.replace(" ", "+");
+                requestData(BASE_URL + safeSearch);
             }
         });
     }
