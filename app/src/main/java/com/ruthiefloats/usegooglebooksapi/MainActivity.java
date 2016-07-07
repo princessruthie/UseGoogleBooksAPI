@@ -33,14 +33,27 @@ public class MainActivity extends AppCompatActivity {
     List<Book> bookList;
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("textview",output.getText().toString());
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
+
 //		Initialize the TextView for vertical scrolling
         output = (TextView) findViewById(R.id.textView);
         output.setMovementMethod(new ScrollingMovementMethod());
+
+        if (savedInstanceState != null){
+            String testerUpdate = savedInstanceState.getString("textview");
+            updateDisplay(testerUpdate);
+        }
+
 
         pb = (ProgressBar) findViewById(R.id.progressBar1);
         pb.setVisibility(View.INVISIBLE);
