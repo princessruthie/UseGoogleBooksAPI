@@ -53,11 +53,7 @@ public class BookJSONParser {
                 Then add that book to the List<Book>.
                  */
 
-                Book book = new Book();
-                book.setAuthor(authors);
-                book.setTitle(title);
-
-                bookList.add(book);
+                bookList.add(new Book(authors, title));
             }
             return bookList;
         } catch (JSONException e) {
