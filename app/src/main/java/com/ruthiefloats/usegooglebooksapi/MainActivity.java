@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.ruthiefloats.usegooglebooksapi.Parser.BookJSONParser;
+import com.ruthiefloats.usegooglebooksapi.parser.BookJSONParser;
 import com.ruthiefloats.usegooglebooksapi.model.Book;
 
 import java.util.ArrayList;

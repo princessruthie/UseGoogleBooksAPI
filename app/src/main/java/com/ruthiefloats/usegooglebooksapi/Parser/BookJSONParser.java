@@ -1,4 +1,4 @@
-package com.ruthiefloats.usegooglebooksapi.Parser;
+package com.ruthiefloats.usegooglebooksapi.parser;
 
 import android.util.Log;
 
