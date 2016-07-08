@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             /**
-             *If doInBackground is returning the uh oh String, we've caught one of the
+             *If doInBackground is returning the warning String, we've caught one of the
              * connection exceptions and will Toast the user.  Otherwise fill up the
              * bookList Array.
              */
@@ -163,11 +163,11 @@ public class MainActivity extends AppCompatActivity {
             /* Debugging Log */
             Log.i("MainActy compare bool", String.valueOf(result.equals(EMPTY_RESULT_JSON)));
 
-            /*If HttpManager returned the uh-oh string, show toast.  Else if there were no books
+            /*If HttpManager returned the warning string, show toast.  Else if there were no books
             matching, show toast.  Otherwise, parse the result.
              */
-            if (testString.equals(getString(R.string.uh_oh))) {
-                Toast.makeText(MainActivity.this, R.string.uh_oh, Toast.LENGTH_LONG).show();
+            if (testString.equals(getString(R.string.warning))) {
+                Toast.makeText(MainActivity.this, R.string.warning, Toast.LENGTH_LONG).show();
             } else if (testString.equals(EMPTY_RESULT_JSON)) {
                 Toast.makeText(MainActivity.this, R.string.no_results_message,
                         Toast.LENGTH_LONG).show();
