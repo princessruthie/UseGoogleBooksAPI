@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     /*The String books api returns if there are no books matching the user's subject */
     private final String EMPTY_RESULT_JSON = "{\"kind\":\"books#volumes\",\"totalItems\":0}";
     /* A spinning progress bar */
-    ProgressBar pb;
+    ProgressBar progressBar;
     /* A List to hold the queued tasks */
     List<MyTask> tasks;
 
@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         bookList = new ArrayList<>();
         adapter = new BookAdapter(this, (ArrayList) bookList);
 
-        pb = (ProgressBar) findViewById(R.id.progressBar1);
-        pb.setVisibility(View.INVISIBLE);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        progressBar.setVisibility(View.INVISIBLE);
 
 
         /*A String to hold the search text, without spaces. */
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             if (tasks.size() == 0) {
-                pb.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
             tasks.add(this);
         }
@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
             tasks.remove(this);
             if (tasks.size() == 0) {
-                pb.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         }
     }
