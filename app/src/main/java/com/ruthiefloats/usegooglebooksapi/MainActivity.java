@@ -4,8 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -15,8 +15,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.ruthiefloats.usegooglebooksapi.parser.BookJSONParser;
 import com.ruthiefloats.usegooglebooksapi.model.Book;
+import com.ruthiefloats.usegooglebooksapi.parser.BookJSONParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+
+        outState.putParcelableArrayList("key", (ArrayList<Book>) bookList);
+        Log.v("MyActy booklist", bookList.toString());
         super.onSaveInstanceState(outState);
-        /* Save whatever the user has typed */
-        outState.putString(SAVED_USER_SEARCH_TEXT_KEY, getUserSafeSearchText());
     }
 
     @Override
@@ -48,16 +49,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         tasks = new ArrayList<>();
-        bookList = new ArrayList<>();
-        adapter = new BookAdapter(this, (ArrayList) bookList);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         progressBar.setVisibility(View.INVISIBLE);
-
-
-        /*A String to hold the search text, without spaces. */
-        String safeSearch;
 
         Button searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -74,12 +70,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (savedInstanceState != null) {
-            /* if the user has already entered a search, reinstate it. */
-            safeSearch = savedInstanceState.getString(SAVED_USER_SEARCH_TEXT_KEY);
-            if (!safeSearch.equals("")) {
-                requestData(BASE_URL + safeSearch);
-            }
+        if (savedInstanceState == null || !savedInstanceState.containsKey("key")) {
+
+            bookList = new ArrayList<>();
+            adapter = new BookAdapter(this, (ArrayList) bookList);
+
+        } else {
+            bookList = savedInstanceState.getParcelableArrayList("key");
+            //TODO reword this so that we're calling the updateData method
+            adapter = new BookAdapter(this, (ArrayList) bookList);
+            ListView listView = (ListView) findViewById(R.id.list);
+            listView.setAdapter(adapter);
         }
     }
 
@@ -126,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
      */
     protected void updateDisplay() {
         if (bookList != null) {
+            /*Clear out the adapter and addAll again
+            * If I call this from onCreate, it clears out the array.  So...*/
             adapter.clear();
             adapter.addAll(bookList);
             ListView listView = (ListView) findViewById(R.id.list);
