@@ -1,5 +1,7 @@
 package com.ruthiefloats.usegooglebooksapi.Parser;
 
+import android.util.Log;
+
 import com.ruthiefloats.usegooglebooksapi.model.Book;
 
 import org.json.JSONArray;
@@ -17,9 +19,18 @@ public class BookJSONParser {
             Construct a Json object out of the passed-in String,
             get a Json array and initialize an empty List of Books.
              */
+
             JSONObject obj = new JSONObject(content);
+
+            /*
+            Debugging log.
+             */
+            int numberItems = obj.getInt("totalItems");
+            Log.i("Number of Items", String.valueOf(numberItems));
+
             JSONArray ar = obj.getJSONArray("items");
             List<Book> bookList = new ArrayList<>();
+
 
             /*
             Iterate over the elements of the JSON array.
@@ -27,15 +38,19 @@ public class BookJSONParser {
             volumeInfo Json object.
              */
             for (int i = 0; i < ar.length(); i++) {
-                JSONObject innerObj = ar.getJSONObject(i);
-                JSONObject volumeInfo = innerObj.getJSONObject("volumeInfo");
+                JSONObject item = ar.getJSONObject(i);
+                JSONObject volumeInfo = item.getJSONObject("volumeInfo");
 
+
+                /*
+                Get the String info and if it's missing, say so.
+                 */
                 String authors = volumeInfo.optString("authors", "No Author Information");
                 String title = volumeInfo.optString("title", "No Title Information");
 
                 /*
                 Create a new book and set the title and author info.
-                Then add that book to the List.
+                Then add that book to the List<Book>.
                  */
 
                 Book book = new Book();

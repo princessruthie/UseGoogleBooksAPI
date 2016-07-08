@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <TextView
+        android:paddingLeft="@dimen/light_padding"
+        android:paddingRight="@dimen/light_padding"
+        android:paddingTop="@dimen/light_padding"
+        android:layout_gravity="bottom"
+        tools:text="The Complete Guide to Machine Quilting"
         android:id="@+id/title"
         android:textSize="@dimen/medium_text_size"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
+        android:paddingBottom="@dimen/light_padding"
+        android:paddingLeft="@dimen/light_padding"
+        android:paddingRight="@dimen/light_padding"
+        android:layout_gravity="top"
+        tools:text="Joanie Zeier Poole"
         android:id="@+id/authors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
