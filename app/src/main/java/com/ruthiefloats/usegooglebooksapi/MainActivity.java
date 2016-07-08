@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     /* A List to hold the queued tasks */
     List<MyTask> tasks;
 
+    BookAdapter adapter;
+
     List<Book> bookList;
 
     @Override
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         tasks = new ArrayList<>();
+        bookList = new ArrayList<>();
+        adapter = new BookAdapter(this, (ArrayList) bookList);
 
         pb = (ProgressBar) findViewById(R.id.progressBar1);
         pb.setVisibility(View.INVISIBLE);
@@ -122,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
      */
     protected void updateDisplay() {
         if (bookList != null) {
-            BookAdapter adapter = new BookAdapter(this, (ArrayList<Book>) bookList);
+            adapter.clear();
+            adapter.addAll(bookList);
             ListView listView = (ListView) findViewById(R.id.list);
             listView.setAdapter(adapter);
         }
