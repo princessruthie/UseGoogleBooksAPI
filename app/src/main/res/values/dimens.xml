@@ -5,4 +5,6 @@
     <dimen name="medium_text_size">16sp</dimen>
     <dimen name="light_padding">16dp</dimen>
     <dimen name="image_dimension">88dp</dimen>
+    <dimen name="guardianWidth">140dp</dimen>
+    <dimen name="guardianHeight">84dp</dimen>
 </resources>
