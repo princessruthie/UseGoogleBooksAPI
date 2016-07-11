@@ -15,32 +15,36 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.ruthiefloats.usegooglebooksapi.model.Book;
-import com.ruthiefloats.usegooglebooksapi.parser.BookJSONParser;
+import com.ruthiefloats.usegooglebooksapi.model.Article;
+import com.ruthiefloats.usegooglebooksapi.parser.ArticleJSONParser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=insubject:";
+//    private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=insubject:";
+    private final String BASE_URL = "http://content.guardianapis.com/search?api-key=test&q=politics&show-fields=thumbnail&show-tags=contributor";
     private final String SAVED_USER_SEARCH_TEXT_KEY = "user_search_text";
-    /*The String books api returns if there are no books matching the user's subject */
-    private final String EMPTY_RESULT_JSON = "{\"kind\":\"books#volumes\",\"totalItems\":0}";
+    /*The String guardian api returns if there are no books matching the user's subject */
+//    private final String EMPTY_RESULT_JSON = "{\"kind\":\"books#volumes\",\"totalItems\":0}";
+    private final String EMPTY_RESULT_JSON = "{\"response\":{\"status\":\"ok\",\"userTier\":\"developer\",\"total\":0,\"startIndex\":0,\"pageSize\":10,\"currentPage\":1,\"pages\":0,\"orderBy\":\"relevance\",\"results\":[]}}";
+
+
     /* A spinning progress bar */
     ProgressBar progressBar;
     /* A List to hold the queued tasks */
     List<MyTask> tasks;
 
-    BookAdapter adapter;
+    ArticleAdapter adapter;
 
-    List<Book> bookList;
+    List<Article> articleList;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        outState.putParcelableArrayList("key", (ArrayList<Book>) bookList);
-        Log.v("MyActy booklist", bookList.toString());
+        outState.putParcelableArrayList("key", (ArrayList<Article>) articleList);
+//        Log.v("MyActy articleList", articleList.toString());
         super.onSaveInstanceState(outState);
     }
 
@@ -62,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 /*Check if you're online then request data  Otherwise throw a toast.*/
                 if (isOnline()) {
                     String safeSearch = getUserSafeSearchText();
-                    requestData(BASE_URL + safeSearch);
+                    //// TODO: 7/11/16 make this not hardcoded
+//                    requestData(BASE_URL + safeSearch);
+                requestData(BASE_URL);
                 } else {
                     Toast.makeText(MainActivity.this,
                             R.string.network_unavail_message, Toast.LENGTH_LONG).show();
@@ -72,13 +78,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null || !savedInstanceState.containsKey("key")) {
 
-            bookList = new ArrayList<>();
-            adapter = new BookAdapter(this, (ArrayList) bookList);
+            articleList = new ArrayList<>();
+            adapter = new ArticleAdapter(this, (ArrayList) articleList);
 
         } else {
-            bookList = savedInstanceState.getParcelableArrayList("key");
+            articleList = savedInstanceState.getParcelableArrayList("key");
             //TODO reword this so that we're calling the updateData method
-            adapter = new BookAdapter(this, (ArrayList) bookList);
+            adapter = new ArticleAdapter(this, (ArrayList) articleList);
             ListView listView = (ListView) findViewById(R.id.list);
             listView.setAdapter(adapter);
         }
@@ -126,11 +132,11 @@ public class MainActivity extends AppCompatActivity {
      * Populate the ListView with the information in the Book list.
      */
     protected void updateDisplay() {
-        if (bookList != null) {
+        if (articleList != null) {
             /*Clear out the adapter and addAll again
             * If I call this from onCreate, it clears out the array.  So...*/
             adapter.clear();
-            adapter.addAll(bookList);
+            adapter.addAll(articleList);
             ListView listView = (ListView) findViewById(R.id.list);
             listView.setAdapter(adapter);
         }
@@ -180,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, R.string.no_results_message,
                         Toast.LENGTH_LONG).show();
             } else {
-                bookList = BookJSONParser.parseFeed(result);
+                articleList = ArticleJSONParser.parseFeed(result);
                 updateDisplay();
             }
 
