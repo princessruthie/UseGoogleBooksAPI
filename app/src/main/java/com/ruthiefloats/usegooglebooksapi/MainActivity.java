@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Populate the ListView with the information in the Book list.
+     * Populate the ListView with the information in the Article list.
      */
     protected void updateDisplay() {
         if (articleList != null) {
