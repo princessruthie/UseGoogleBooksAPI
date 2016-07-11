@@ -1,4 +1,4 @@
-package com.ruthiefloats.usegooglebooksapi.model;
+package com.ruthiefloats.useguardianapi.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

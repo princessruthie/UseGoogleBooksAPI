@@ -1,4 +1,4 @@
-package com.ruthiefloats.usegooglebooksapi;
+package com.ruthiefloats.useguardianapi;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.ruthiefloats.usegooglebooksapi.model.Article;
+import com.ruthiefloats.useguardianapi.model.Article;
 
 import java.util.ArrayList;
 

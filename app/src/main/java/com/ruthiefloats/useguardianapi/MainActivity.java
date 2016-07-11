@@ -1,4 +1,4 @@
-package com.ruthiefloats.usegooglebooksapi;
+package com.ruthiefloats.useguardianapi;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -14,8 +14,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.ruthiefloats.usegooglebooksapi.model.Article;
-import com.ruthiefloats.usegooglebooksapi.parser.ArticleJSONParser;
+import com.ruthiefloats.useguardianapi.model.Article;
+import com.ruthiefloats.useguardianapi.parser.ArticleJSONParser;
 
 import java.util.ArrayList;
 import java.util.List;

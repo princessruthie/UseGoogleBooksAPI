@@ -1,4 +1,4 @@
-package com.ruthiefloats.usegooglebooksapi;
+package com.ruthiefloats.useguardianapi;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

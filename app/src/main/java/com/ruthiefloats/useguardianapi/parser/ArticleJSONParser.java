@@ -1,8 +1,8 @@
-package com.ruthiefloats.usegooglebooksapi.parser;
+package com.ruthiefloats.useguardianapi.parser;
 
 import android.util.Log;
 
-import com.ruthiefloats.usegooglebooksapi.model.Article;
+import com.ruthiefloats.useguardianapi.model.Article;
 
 import org.json.JSONArray;
 import org.json.JSONException;
