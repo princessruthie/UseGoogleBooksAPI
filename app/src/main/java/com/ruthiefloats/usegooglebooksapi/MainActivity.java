@@ -4,8 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -15,8 +15,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.ruthiefloats.usegooglebooksapi.Parser.BookJSONParser;
 import com.ruthiefloats.usegooglebooksapi.model.Book;
+import com.ruthiefloats.usegooglebooksapi.parser.BookJSONParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +28,20 @@ public class MainActivity extends AppCompatActivity {
     /*The String books api returns if there are no books matching the user's subject */
     private final String EMPTY_RESULT_JSON = "{\"kind\":\"books#volumes\",\"totalItems\":0}";
     /* A spinning progress bar */
-    ProgressBar pb;
+    ProgressBar progressBar;
     /* A List to hold the queued tasks */
     List<MyTask> tasks;
+
+    BookAdapter adapter;
 
     List<Book> bookList;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+
+        outState.putParcelableArrayList("key", (ArrayList<Book>) bookList);
+        Log.v("MyActy booklist", bookList.toString());
         super.onSaveInstanceState(outState);
-        /* Save whatever the user has typed */
-        outState.putString(SAVED_USER_SEARCH_TEXT_KEY, getUserSafeSearchText());
     }
 
     @Override
@@ -46,14 +49,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         tasks = new ArrayList<>();
 
-        pb = (ProgressBar) findViewById(R.id.progressBar1);
-        pb.setVisibility(View.INVISIBLE);
-
-
-        /*A String to hold the search text, without spaces. */
-        String safeSearch;
+        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        progressBar.setVisibility(View.INVISIBLE);
 
         Button searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -70,12 +70,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (savedInstanceState != null) {
-            /* if the user has already entered a search, reinstate it. */
-            safeSearch = savedInstanceState.getString(SAVED_USER_SEARCH_TEXT_KEY);
-            if (!safeSearch.equals("")) {
-                requestData(BASE_URL + safeSearch);
-            }
+        if (savedInstanceState == null || !savedInstanceState.containsKey("key")) {
+
+            bookList = new ArrayList<>();
+            adapter = new BookAdapter(this, (ArrayList) bookList);
+
+        } else {
+            bookList = savedInstanceState.getParcelableArrayList("key");
+            //TODO reword this so that we're calling the updateData method
+            adapter = new BookAdapter(this, (ArrayList) bookList);
+            ListView listView = (ListView) findViewById(R.id.list);
+            listView.setAdapter(adapter);
         }
     }
 
@@ -122,7 +127,10 @@ public class MainActivity extends AppCompatActivity {
      */
     protected void updateDisplay() {
         if (bookList != null) {
-            BookAdapter adapter = new BookAdapter(this, (ArrayList<Book>) bookList);
+            /*Clear out the adapter and addAll again
+            * If I call this from onCreate, it clears out the array.  So...*/
+            adapter.clear();
+            adapter.addAll(bookList);
             ListView listView = (ListView) findViewById(R.id.list);
             listView.setAdapter(adapter);
         }
@@ -136,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             if (tasks.size() == 0) {
-                pb.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
             tasks.add(this);
         }
@@ -151,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             /**
-             *If doInBackground is returning the uh oh String, we've caught one of the
+             *If doInBackground is returning the warning String, we've caught one of the
              * connection exceptions and will Toast the user.  Otherwise fill up the
              * bookList Array.
              */
@@ -163,11 +171,11 @@ public class MainActivity extends AppCompatActivity {
             /* Debugging Log */
             Log.i("MainActy compare bool", String.valueOf(result.equals(EMPTY_RESULT_JSON)));
 
-            /*If HttpManager returned the uh-oh string, show toast.  Else if there were no books
+            /*If HttpManager returned the warning string, show toast.  Else if there were no books
             matching, show toast.  Otherwise, parse the result.
              */
-            if (testString.equals(getString(R.string.uh_oh))) {
-                Toast.makeText(MainActivity.this, R.string.uh_oh, Toast.LENGTH_LONG).show();
+            if (testString.equals(getString(R.string.warning))) {
+                Toast.makeText(MainActivity.this, R.string.warning, Toast.LENGTH_LONG).show();
             } else if (testString.equals(EMPTY_RESULT_JSON)) {
                 Toast.makeText(MainActivity.this, R.string.no_results_message,
                         Toast.LENGTH_LONG).show();
@@ -178,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
             tasks.remove(this);
             if (tasks.size() == 0) {
-                pb.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         }
     }
