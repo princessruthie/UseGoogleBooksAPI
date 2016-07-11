@@ -8,9 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -23,7 +22,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-//    private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=insubject:";
+    //    private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=insubject:";
     private final String BASE_URL = "http://content.guardianapis.com/search?api-key=test&q=politics&show-fields=thumbnail&show-tags=contributor";
     private final String SAVED_USER_SEARCH_TEXT_KEY = "user_search_text";
     /*The String guardian api returns if there are no books matching the user's subject */
@@ -39,6 +38,17 @@ public class MainActivity extends AppCompatActivity {
     ArticleAdapter adapter;
 
     List<Article> articleList;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.the_only_menu_option) {
+            requestData(BASE_URL);
+            return true;
+        } else
+
+            return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -59,23 +69,6 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         progressBar.setVisibility(View.INVISIBLE);
 
-        Button searchButton = (Button) findViewById(R.id.search_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*Check if you're online then request data  Otherwise throw a toast.*/
-                if (isOnline()) {
-                    String safeSearch = getUserSafeSearchText();
-                    //// TODO: 7/11/16 make this not hardcoded
-//                    requestData(BASE_URL + safeSearch);
-                requestData(BASE_URL);
-                } else {
-                    Toast.makeText(MainActivity.this,
-                            R.string.network_unavail_message, Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
         if (savedInstanceState == null || !savedInstanceState.containsKey("key")) {
 
             articleList = new ArrayList<>();
@@ -88,15 +81,6 @@ public class MainActivity extends AppCompatActivity {
             ListView listView = (ListView) findViewById(R.id.list);
             listView.setAdapter(adapter);
         }
-    }
-
-    /**
-     * @return The user's search String where spaces have been converted to +'s
-     */
-    private String getUserSafeSearchText() {
-        EditText editText = (EditText) findViewById(R.id.edit_text);
-        String searchText = editText.getText().toString();
-        return searchText.replace(" ", "+");
     }
 
     @Override
