@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * An AsyncTask subclass to make network calls on a separate thread.
      */
-    private class MyTask extends AsyncTask<String, String, String> {
+    private class MyTask extends AsyncTask<String, String, List<Article>> {
 
         @Override
         protected void onPreExecute() {
@@ -140,14 +140,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(String... params) {
+        protected List<Article> doInBackground(String... params) {
             String content = HttpManager.getData(params[0], MainActivity.this);
-            return content;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
             /**
              *If doInBackground is returning the warning String, we've caught one of the
              * connection exceptions and will Toast the user.  Otherwise fill up the
@@ -155,29 +149,39 @@ public class MainActivity extends AppCompatActivity {
              */
 
             /* Take out all of the spaces and returns to compare the strings. */
-            String testString = result.replaceAll(" ", "");
+            String testString = content.replaceAll(" ", "");
             testString = testString.replaceAll("\n", "");
 
             /* Debugging Log */
-            Log.i("MainActy compare bool", String.valueOf(result.equals(EMPTY_RESULT_JSON)));
+            Log.i("MainActy compare bool", String.valueOf(content.equals(EMPTY_RESULT_JSON)));
 
             /*If HttpManager returned the warning string, show toast.  Else if there were no books
             matching, show toast.  Otherwise, parse the result.
              */
             if (testString.equals(getString(R.string.warning))) {
                 Toast.makeText(MainActivity.this, R.string.warning, Toast.LENGTH_LONG).show();
+                return null;
             } else if (testString.equals(EMPTY_RESULT_JSON)) {
                 Toast.makeText(MainActivity.this, R.string.no_results_message,
                         Toast.LENGTH_LONG).show();
+                return null;
             } else {
-                articleList = ArticleJSONParser.parseFeed(result);
-                updateDisplay();
+                articleList = ArticleJSONParser.parseFeed(content);
+                //Todo have someone update the display
+//                updateDisplay();
+                return articleList;
             }
+        }
+
+        @Override
+        protected void onPostExecute(List<Article> result) {
 
             tasks.remove(this);
             if (tasks.size() == 0) {
                 progressBar.setVisibility(View.INVISIBLE);
             }
+
+            updateDisplay();
         }
     }
 }
