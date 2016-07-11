@@ -43,14 +43,14 @@ public class HttpManager {
         } catch (Exception e) {
             e.printStackTrace();
             /*The calling code can check for this failure and notify user */
-            return (context.getResources().getString(R.string.uh_oh));
+            return (context.getResources().getString(R.string.warning));
         } finally {
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    return (context.getResources().getString(R.string.uh_oh));
+                    return (context.getResources().getString(R.string.warning));
                 }
             }
         }
