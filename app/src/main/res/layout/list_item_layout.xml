@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-    android:padding="@dimen/light_padding">
+              android:orientation="horizontal"
+              android:padding="@dimen/light_padding">
+
     <ImageView
         android:id="@+id/image"
-        tools:src="@mipmap/ic_launcher"
         android:layout_width="@dimen/guardianWidth"
-        android:layout_height="@dimen/guardianHeight"/>
+        android:layout_height="@dimen/guardianHeight"
+        tools:src="@mipmap/ic_launcher"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,26 +18,26 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:paddingLeft="@dimen/light_padding"
             android:paddingRight="@dimen/light_padding"
             android:paddingTop="@dimen/light_padding"
-            android:layout_gravity="bottom"
-            tools:text="The Complete Guide to Machine Quilting"
-            android:id="@+id/title"
             android:textSize="@dimen/medium_text_size"
             android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            tools:text="The Complete Guide to Machine Quilting"/>
 
         <TextView
+            android:id="@+id/authors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
             android:paddingBottom="@dimen/light_padding"
             android:paddingLeft="@dimen/light_padding"
             android:paddingRight="@dimen/light_padding"
-            android:layout_gravity="top"
-            tools:text="Joanie Zeier Poole"
-            android:id="@+id/authors"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            tools:text="Joanie Zeier Poole"/>
     </LinearLayout>
 
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ruthiefloats.useguardianapi.model.Article;
@@ -29,9 +30,11 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
 
         TextView titleTextView = (TextView) listItemView.findViewById(R.id.title);
         TextView authorTextView = (TextView) listItemView.findViewById(R.id.authors);
+        ImageView imageView = (ImageView) listItemView.findViewById(R.id.image);
 
         titleTextView.setText(currentArticle.getWebTitle());
         authorTextView.setText(currentArticle.getContributorWebTitle());
+        imageView.setImageBitmap(currentArticle.getBitmap());
 
         return listItemView;
     }

@@ -1,5 +1,6 @@
 package com.ruthiefloats.useguardianapi.model;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -41,6 +42,20 @@ public class Article implements Parcelable {
     private String webUrl;
     private String thumbnail;
     private String contributorWebTitle;
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    public static Creator<Article> getCREATOR() {
+        return CREATOR;
+    }
+
+    private Bitmap bitmap;
 
     public Article(String webTitle, String webUrl, String thumbnail, String contributorWebTitle) {
         this.webTitle = webTitle;

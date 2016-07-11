@@ -1,6 +1,8 @@
 package com.ruthiefloats.useguardianapi;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -17,6 +19,9 @@ import android.widget.Toast;
 import com.ruthiefloats.useguardianapi.model.Article;
 import com.ruthiefloats.useguardianapi.parser.ArticleJSONParser;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -167,8 +172,19 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             } else {
                 articleList = ArticleJSONParser.parseFeed(content);
-                //Todo have someone update the display
-//                updateDisplay();
+
+                for (Article article : articleList) {
+                    String imageUrl = article.getThumbnail();
+                    try {
+                        InputStream inputStream = (InputStream) new URL(imageUrl).getContent();
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        article.setBitmap(bitmap);
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 return articleList;
             }
         }
