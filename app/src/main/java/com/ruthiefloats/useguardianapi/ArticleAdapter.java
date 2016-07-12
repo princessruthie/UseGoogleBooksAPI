@@ -1,6 +1,8 @@
 package com.ruthiefloats.useguardianapi;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +28,7 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
                     R.layout.list_item_layout, parent, false);
         }
 
-        Article currentArticle = getItem(position);
+        final Article currentArticle = getItem(position);
 
         TextView titleTextView = (TextView) listItemView.findViewById(R.id.title);
         TextView authorTextView = (TextView) listItemView.findViewById(R.id.authors);
@@ -35,6 +37,16 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         titleTextView.setText(currentArticle.getWebTitle());
         authorTextView.setText(currentArticle.getContributorWebTitle());
         imageView.setImageBitmap(currentArticle.getBitmap());
+
+        listItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                String uri = currentArticle.getWebUrl();
+                intent.setData(Uri.parse(uri));
+                getContext().startActivity(intent);
+            }
+        });
 
         return listItemView;
     }
