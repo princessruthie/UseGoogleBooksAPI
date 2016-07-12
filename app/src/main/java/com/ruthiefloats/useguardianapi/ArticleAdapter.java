@@ -38,6 +38,7 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         authorTextView.setText(currentArticle.getContributorWebTitle());
         imageView.setImageBitmap(currentArticle.getBitmap());
 
+        /*Set a click listener and have it open the user's browser */
         listItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

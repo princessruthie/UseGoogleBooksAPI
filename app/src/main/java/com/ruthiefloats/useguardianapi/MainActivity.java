@@ -27,13 +27,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    //    private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=insubject:";
     private final String BASE_URL = "http://content.guardianapis.com/search?api-key=test&q=politics&show-fields=thumbnail&show-tags=contributor";
-    private final String SAVED_USER_SEARCH_TEXT_KEY = "user_search_text";
-    /*The String guardian api returns if there are no books matching the user's subject */
-//    private final String EMPTY_RESULT_JSON = "{\"kind\":\"books#volumes\",\"totalItems\":0}";
-    private final String EMPTY_RESULT_JSON = "{\"response\":{\"status\":\"ok\",\"userTier\":\"developer\",\"total\":0,\"startIndex\":0,\"pageSize\":10,\"currentPage\":1,\"pages\":0,\"orderBy\":\"relevance\",\"results\":[]}}";
 
+    /*The String Guardian api returns if there are no articles matching the user's subject */
+    private final String EMPTY_RESULT_JSON = "{\"response\":{\"status\":\"ok\",\"userTier\":\"developer\",\"total\":0,\"startIndex\":0,\"pageSize\":10,\"currentPage\":1,\"pages\":0,\"orderBy\":\"relevance\",\"results\":[]}}";
 
     /* A spinning progress bar */
     ProgressBar progressBar;
@@ -50,16 +47,15 @@ public class MainActivity extends AppCompatActivity {
             requestData(BASE_URL);
             return true;
         } else
-
             return super.onOptionsItemSelected(item);
     }
 
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-
         outState.putParcelableArrayList("key", (ArrayList<Article>) articleList);
-//        Log.v("MyActy articleList", articleList.toString());
+        /*Debug log */
+        Log.v("MyActy articleList", articleList.toString());
         super.onSaveInstanceState(outState);
     }
 
@@ -67,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         tasks = new ArrayList<>();
 
@@ -81,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             articleList = savedInstanceState.getParcelableArrayList("key");
-            //TODO reword this so that we're calling the updateData method
             adapter = new ArticleAdapter(this, (ArrayList) articleList);
             ListView listView = (ListView) findViewById(R.id.list);
             listView.setAdapter(adapter);
@@ -150,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             /**
              *If doInBackground is returning the warning String, we've caught one of the
              * connection exceptions and will Toast the user.  Otherwise fill up the
-             * bookList Array.
+             * articleList Array.
              */
 
             /* Take out all of the spaces and returns to compare the strings. */
@@ -160,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             /* Debugging Log */
             Log.i("MainActy compare bool", String.valueOf(content.equals(EMPTY_RESULT_JSON)));
 
-            /*If HttpManager returned the warning string, show toast.  Else if there were no books
+            /*If HttpManager returned the warning string, show toast.  Else if there were no articles
             matching, show toast.  Otherwise, parse the result.
              */
             if (testString.equals(getString(R.string.warning))) {
@@ -172,6 +166,8 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             } else {
                 articleList = ArticleJSONParser.parseFeed(content);
+
+                /*Use the thumbnail String to get a Bitmap*/
 
                 for (Article article : articleList) {
                     String imageUrl = article.getThumbnail();

@@ -31,6 +31,7 @@ public class ArticleJSONParser {
 
             JSONArray ar = response.getJSONArray("results");
             List<Article> articleList = new ArrayList<>();
+            /*Initialize the tags object now so that it doesn't */
             JSONObject tags = null;
 
             /*
@@ -42,15 +43,11 @@ public class ArticleJSONParser {
                 JSONObject item = ar.getJSONObject(i);
                 JSONObject fields = item.getJSONObject("fields");
                 JSONArray tagsArray = item.getJSONArray("tags");
-                /*
-                While the tags array is always present, sometimes it
-                is empty.  In the event it's empty, we just record that.
-                 */
+
                 boolean hasTags = false;
                 if (tagsArray.length() > 0) {
                     tags = tagsArray.getJSONObject(0);
                     hasTags = true;
-//                JSONObject volumeInfo = item.getJSONObject("volumeInfo");
                 }
 
                 /*
@@ -61,14 +58,14 @@ public class ArticleJSONParser {
                 String webUrl = item.optString("webUrl", "No Web Link Information");
                 String thumbnail = fields.optString("thumbnail", "No Thumbnail Information");
                 String contributorWebTitle;
-
+                /*
+                While the tags array is always present, sometimes it
+                is empty.  In the event it's empty, we just record that.
+                 */
                 if (hasTags) {
                     contributorWebTitle = tags.optString("webTitle", "No Contributor Information");
                 } else
                     contributorWebTitle = "No Contributor Information";
-
-//                String authors = volumeInfo.optString("authors", "No Author Information");
-//                String title = volumeInfo.optString("title", "No Title Information");
 
                 /*
                 Create a new article and set the title and author info.

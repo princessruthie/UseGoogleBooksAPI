@@ -10,6 +10,7 @@
         android:id="@+id/image"
         android:layout_width="@dimen/guardianWidth"
         android:layout_height="@dimen/guardianHeight"
+        android:layout_gravity="center_vertical"
         tools:src="@mipmap/ic_launcher"/>
 
     <LinearLayout
