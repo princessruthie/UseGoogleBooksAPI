@@ -1,10 +1,8 @@
 <resources>
 
-    <string name="app_name">Use Google Books API</string>
-    <string name="search">Search!</string>
-    <string name="search_results">Your results: \n</string>
-    <string name="warning">Sorry, we can\'t connect with the Books api right now.</string>
+    <string name="app_name">Use Guardian API</string>
+    <string name="warning">Sorry, we can\'t connect with the Guardian api right now.</string>
     <string name="network_unavail_message">Network isn\'t available</string>
-    <string name="no_results_message">There are no books whose subjects contain your search term(s)</string>
+    <string name="no_results_message">There are no articles whose subjects contain your search term(s)</string>
 
 </resources>

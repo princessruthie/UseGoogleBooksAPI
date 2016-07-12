@@ -1,4 +1,4 @@
-package com.ruthiefloats.usegooglebooksapi;
+package com.ruthiefloats.useguardianapi;
 
 import org.junit.Test;
 
