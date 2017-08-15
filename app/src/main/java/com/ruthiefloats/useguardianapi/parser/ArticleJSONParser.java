@@ -13,6 +13,7 @@ import java.util.List;
 
 public class ArticleJSONParser {
     public static List<Article> parseFeed(String content) {
+        List<Article> articleList = new ArrayList<>();
 
         try {
             /*
@@ -20,8 +21,10 @@ public class ArticleJSONParser {
             get a Json array and initialize an empty List of Articles.
              */
 
-            JSONObject obj = new JSONObject(content);
-            JSONObject response = obj.getJSONObject("response");
+            JSONObject obj;
+            obj = new JSONObject(content);
+            JSONObject response;
+            response = obj.getJSONObject("response");
 
             /*
             Debugging log.
@@ -30,9 +33,9 @@ public class ArticleJSONParser {
             Log.i("Number of Items", String.valueOf(numItems));
 
             JSONArray ar = response.getJSONArray("results");
-            List<Article> articleList = new ArrayList<>();
             /*Initialize the tags object now so that it doesn't */
-            JSONObject tags = null;
+            JSONObject tags;
+            tags = null;
 
             /*
             Iterate over the elements of the JSON array.
@@ -40,9 +43,17 @@ public class ArticleJSONParser {
             in the GET
              */
             for (int i = 0; i < ar.length(); i++) {
-                JSONObject item = ar.getJSONObject(i);
-                JSONObject fields = item.getJSONObject("fields");
-                JSONArray tagsArray = item.getJSONArray("tags");
+                JSONObject fields;
+                JSONArray tagsArray;
+                JSONObject item;
+                item = ar.getJSONObject(i);
+                try {
+                    fields = item.getJSONObject("fields");
+                    tagsArray = item.getJSONArray("tags");
+                } catch (JSONException e) {
+                    fields = new JSONObject("{ \"this is\": \"empty\" }");
+                    tagsArray = new JSONArray("[]");
+                }
 
                 boolean hasTags = false;
                 if (tagsArray.length() > 0) {
@@ -77,7 +88,7 @@ public class ArticleJSONParser {
             return articleList;
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
         }
+        return articleList;
     }
 }
